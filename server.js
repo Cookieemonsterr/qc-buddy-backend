@@ -28,11 +28,6 @@ app.use(
 );
 app.options("*", cors());
 
-function isBossSecret(q = "") {
-  // normalize Arabic punctuation/spacing a bit
-  const s = String(q).replace(/[؟?]/g, "").replace(/\s+/g, " ").trim();
-  return s === "اذا نمت وانا جوعان شو بتساوي";
-}
 
 // ---------- Parsers ----------
 app.use(bodyParser.json({ limit: "2mb" }));
@@ -124,7 +119,15 @@ async function handleAsk(req, res) {
     const { message = "", market = "AUTO" } = req.body || {};
     const text = String(message).trim();
     if (!text) return res.status(400).json({ error: "missing_message" });
-
+    // --- SECRET EASTER EGG for boss ---
+const easterEggRe = /اذا\s+نمت\s+وانا\s+جوعان\s+شو\s+بتساوي[؟?]?\s*$/i;
+if (easterEggRe.test(text)) {
+  return res.json({
+    answer: "اوووووووووووووووووووو\n\n**بطلبلك اكل وبطعميك من ايدي** 😼",
+    sources: [],
+    buddyMood: "happy",
+  });
+}
     const items = text.split("\n").map((s) => s.trim()).filter(Boolean);
 
     // Multi-line → batch cute mode
@@ -140,17 +143,6 @@ async function handleAsk(req, res) {
         buddyMood: "helpful",
       });
     }
-    // --- Easter egg: boss secret question
-if (isBossSecret(message)) {
-  // cute two-part reply; keep your persona vibe
-  const answer = "اوووووووووووووووووووو\n\nبطلبلك اكل وبطعميك من ايدي";
-  return res.json({
-    answer,
-    sources: [],
-    buddyMood: "playful",
-  });
-}
-
 
     // Single-line → normal
     const r = await answerOne(text, market, req.forceRAG);
@@ -295,5 +287,6 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`QC Buddy backend running on http://localhost:${PORT}`);
 });
+
 
 
