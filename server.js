@@ -28,6 +28,12 @@ app.use(
 );
 app.options("*", cors());
 
+function isBossSecret(q = "") {
+  // normalize Arabic punctuation/spacing a bit
+  const s = String(q).replace(/[؟?]/g, "").replace(/\s+/g, " ").trim();
+  return s === "اذا نمت وانا جوعان شو بتساوي";
+}
+
 // ---------- Parsers ----------
 app.use(bodyParser.json({ limit: "2mb" }));
 
@@ -37,13 +43,6 @@ const MAX_PER_MIN = Number(process.env.GEMINI_MAX_CALLS_PER_MIN || 30);
 setInterval(() => {
   _aiCalls = 0;
 }, 60_000);
-
-function isBossSecret(q = "") {
-  // normalize Arabic punctuation/spacing a bit
-  const s = String(q).replace(/[؟?]/g, "").replace(/\s+/g, " ").trim();
-  return s === "اذا نمت وانا جوعان شو بتساوي";
-}
-
 
 function aiGatekeeper(req, _res, next) {
   const mode = (process.env.GEMINI_MODE || "flash").toLowerCase();
@@ -141,6 +140,17 @@ async function handleAsk(req, res) {
         buddyMood: "helpful",
       });
     }
+    // --- Easter egg: boss secret question
+if (isBossSecret(message)) {
+  // cute two-part reply; keep your persona vibe
+  const answer = "اوووووووووووووووووووو\n\nبطلبلك اكل وبطعميك من ايدي";
+  return res.json({
+    answer,
+    sources: [],
+    buddyMood: "playful",
+  });
+}
+
 
     // Single-line → normal
     const r = await answerOne(text, market, req.forceRAG);
@@ -285,4 +295,5 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`QC Buddy backend running on http://localhost:${PORT}`);
 });
+
 
