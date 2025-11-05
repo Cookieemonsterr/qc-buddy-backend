@@ -1,0 +1,38 @@
+[
+  {
+    "title": "SOP_ Menu Tags Guidelines (1).docx — <a id=\"_heading=h.8n7aqrij6zqu\"></a>4\\.0 Process details",
+    "topic": "tags",
+    "market": "ALL",
+    "text": "Updating and applying tags is done through:\n1. Onboarding tickets\n2. Update existing tags \\(clean\\-up exercise\\)"
+  },
+  {
+    "title": "SOP_ Menu Tags Guidelines (1).docx — <a id=\"_heading=h.e8gvrcy3p84k\"></a>8\\.0 Governance",
+    "topic": "tags",
+    "market": "ALL",
+    "text": "1. The QC lead will export a list of restaurants categorized by specific types \\(eg\\. Sandwiches, Burgers\\) and share it as a google sheet with the Catalog team for review, as no MIF file is available for reviewing of each outlet \\(menu and profile\\)\n2. For outlets with correct tags and cuisines, the Catalog team will indicate this in the same google sheet shared by the QC\\.\n3. For outlets with incorrect tags or cuisines, the Catalog team will suggest appropriate alternatives\n4. The QC team will then review the suggested changes:\n• If approved, the Catalog team will implement them\n• If not approved, the QC team will note required changes, and the Catalog team will update the tags and cuisines accordingly"
+  },
+  {
+    "title": "SOP_ Menu Tags Guidelines (1).docx — <a id=\"_heading=h.fbpo7ko0vf4\"></a>6\\.1 Update ticket tags  policies",
+    "topic": "tags",
+    "market": "ALL",
+    "text": "1. Verify the requested tags with the partner to ensure they align with the menu in Saturn\n2. Cuisine tags should represent at least 50% of the menu or the main value proposition based on the categories or menu items\n3. The updated cuisine should not exceed 3 cuisines 4. Tag tags must correspond to at least 30% of the items or categories on the menu\n5. Food tags should not exceed 3 tags\n6. General tags should not exceed 3 tags"
+  },
+  {
+    "title": "SOP_ Menu Tags Guidelines (1).docx — <a id=\"_heading=h.mhvj4tdqrmvk\"></a>",
+    "topic": "tags",
+    "market": "ALL",
+    "text": "<a id=\"_heading=h.mhvj4tdqrmvk\"></a>"
+  },
+  {
+    "title": "SOP_ Menu Tags Guidelines (1).docx — <a id=\"_heading=h.tbepa3jbg8sx\"></a>6\\.0 Tags Process for the update tickets \\- all markets",
+    "topic": "tags",
+    "market": "ALL",
+    "text": "For the update tickets, the tags will already be on the outlet\\. The process only requires updating or modifying the tags, either by adding or removing them to replace existing tags and cuisine\\."
+  },
+  {
+    "title": "SOP_ Menu Tags Guidelines (1).docx — <a id=\"_heading=h.xd4y48nxobi\"></a>7\\.0 Roles and Responsibilities",
+    "topic": "tags",
+    "market": "ALL",
+    "text": "Roles are defined for the For onboarding and updating tickets: 1. __Sales Team__: Raise the [onboarding ticket ](https://careem-tech.atlassian.net/servicedesk/customer/portal/21/group/86)and attach the MIF file with tags and cuisine\n2. __AM team__: Raise and update [tickets ](https://careem-tech.atlassian.net/servicedesk/customer/portal/21/group/86)for tags and cuisine\\. AMs cannot make changes to tags directly, and any suggestions or reviews must be submitted as part of the [ticket ](https://docs.google.com/document/d/1I7vKJ_r39B9N3ZacCcDuclfmOP8wYuN_/edit)\n3. __Catalog team:__ Add and update tags and cuisine in the system\n4. __QC team: __Add new tags and review those added by the Catalog team, making modifications where necessary to ensure accuracy and alignment with standards"
+  }
+]

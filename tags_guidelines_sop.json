@@ -1,0 +1,165 @@
+{
+  "meta": {
+    "title": "SOP: Menu Tags Guidelines",
+    "source_file": "SOP_ Menu Tags Guidelines.docx",
+    "document_number": "GOSOP-10-002",
+    "generated_at": "2025-11-05T11:47:57.330457Z"
+  },
+  "toc": [
+    "1.0 Objective",
+    "2.0 Scope",
+    "3.0 Types of Tags",
+    "3.1 Saturn View of Tags and Cuisines",
+    "4.0 Process details (Onboarding / Cleanup)",
+    "4.1 Onboarding (General)",
+    "4.2 Onboarding - UAE",
+    "4.3 Onboarding - KSA",
+    "4.4 Onboarding - JOR",
+    "5.0 New outlets for an existing brand",
+    "6.0 Update tickets",
+    "6.1 Update ticket policies",
+    "7.0 Roles and Responsibilities",
+    "8.0 Governance"
+  ],
+  "definitions": {
+    "cuisine_tags": "Visible on restaurant card; up to 3; integrated in tiles, carousels, and search",
+    "tag_tags": "Hidden search/sorting tags for key menu items",
+    "subpage_tags": "Hidden tags tied to subpages/subtiles for sorting within sections"
+  },
+  "process": {
+    "onboarding_general": [
+      "Sales attaches MIF file with cuisines/tags; review tags tree",
+      "Pick up to two key 'subtags' from cuisine tree that represent the outlet’s offerings",
+      "Enter chosen values in the JIRA ticket description"
+    ],
+    "per_market": {
+      "UAE": {
+        "cuisine_tags": {
+          "rules": [
+            "Should reflect 50% of the menu or main value proposition",
+            "Use outlet name as indicator (e.g., 'Pasta Italy' -> Pasta)",
+            "Up to 3 cuisine tags; Cuisine Tag 3 is optional (0 or 1)",
+            "Cuisine Tag 3 must come from corresponding Food/General tags for the chosen G1/G2 OR from the non‑geographical cuisine list",
+            "If MIF provides 2 G1 tags from the same tree, apply both plus G2",
+            "Do not mix different G1s from different G2s; do not mix food items from unrelated geographical cuisines",
+            "Do not use non‑geographical cuisine tags for Healthy/Desserts",
+            "Cuisine tags can be replicated into tag tags"
+          ],
+          "avoid_examples": [
+            "Incorrect: Emirati, Saudi, Japanese (mixing trees)",
+            "Avoid defaulting 'Fast food' to any burger brand unless clearly a fast‑food chain"
+          ]
+        },
+        "tag_tags": {
+          "rules": [
+            "Each tag should map to at least 30% of items or categories",
+            "0–3 Food tags; 0–3 General tags",
+            "Must be selected from corresponding Food/General tags of the chosen G1/G2 cuisines",
+            "Cannot be replicated upward into cuisine tags",
+            "Avoid defaulting 'Fast food' unless clearly applicable"
+          ]
+        },
+        "subpage_tags": {
+          "rules": [
+            "Choose from the designated subpage tag list for the chosen G1/G2",
+            "Each subpage tag should represent at least 15% of primary items or main food categories",
+            "Max 2 subpage tags; cannot be replicated as cuisine tags",
+            "Subtags are mandatory; every restaurant must have at least one relevant subpage tag"
+          ]
+        },
+        "special_requests": [
+          "Add 'Cplus' tag for all new Careem Fulfilment onboarding outlets",
+          "Add 'New restaurant' tag to all new onboardings; Sales/AM removes after 30 days"
+        ]
+      },
+      "KSA": {
+        "cuisine_tags": {
+          "rules": [
+            "Reflect 50% of the menu or main value proposition",
+            "Up to 3 cuisine tags; Tag 3 optional (0 or 1)",
+            "Cuisine Tag 3 must be from corresponding Food/General tags (chosen G1/G2) or non‑geographical cuisine list",
+            "Outlet name is a key indicator ('Pasta Italy' -> Pasta)",
+            "If MIF provides 2 G1s from same tree, apply both plus G2",
+            "Do not mix different cuisines across different geographical cuisines",
+            "Do not mix G1s from different G2s",
+            "Do not use non‑geographical cuisine tags for Healthy/Desserts",
+            "Cuisine tags can be replicated into tag tags"
+          ],
+          "avoid_examples": [
+            "Incorrect: Emirati, Saudi, Japanese",
+            "Avoid default 'Fast food' unless applicable (e.g., McDonald's, Hardee's, Burger King)"
+          ]
+        },
+        "tag_tags": {
+          "rules": [
+            "≥30% coverage of items/categories per tag",
+            "0–3 Food tags; 0–3 General tags",
+            "Only from corresponding Food/General tags of chosen G1/G2",
+            "Cannot be replicated into cuisine tags",
+            "Avoid default 'Fast food' unless clearly applicable"
+          ]
+        },
+        "special_requests": [
+          "Add 'New restaurant' tag to all new onboardings"
+        ]
+      },
+      "JOR": {
+        "cuisine_tags": {
+          "rules": [
+            "Reflect 50% of the menu or main value proposition",
+            "Up to 3 cuisine tags; Tag 3 optional (0 or 1)",
+            "Cuisine Tag 3 must be from corresponding Food/General tags (chosen G1/G2) or non‑geographical cuisine list",
+            "Outlet name is a key indicator",
+            "If MIF provides 2 G1s from same tree, apply both plus G2",
+            "Do not mix different cuisines from unrelated geographical categories",
+            "Do not mix G1s from different G2s",
+            "Do not use non‑geographical cuisine tags for Healthy/Desserts"
+          ],
+          "avoid_examples": [
+            "Incorrect: Emirati, Saudi, Japanese"
+          ]
+        },
+        "tag_tags": {
+          "rules": [
+            "≥30% coverage of items/categories per tag",
+            "0–3 Food tags; 0–3 General tags",
+            "Only from corresponding Food/General tags of chosen G1/G2",
+            "Cannot be replicated into cuisine tags",
+            "Avoid default 'Fast food' unless clearly applicable"
+          ]
+        },
+        "not_allowed_tags_note": "Certain tags/cuisines are not allowed for JOR; avoid those when choosing the cuisine tag (see full list in source doc)",
+        "special_requests": [
+          "Add 'Only on Careem' tag for Careem exclusive contracts",
+          "Add 'New restaurant' tag to all new onboardings"
+        ]
+      }
+    },
+    "existing_brand_new_outlet": [
+      "Copy tags from existing outlets of the same brand (do not copy marketing tags)",
+      "Add 'New restaurant' tag"
+    ],
+    "update_tickets": {
+      "policy": [
+        "Verify requested tags with partner; align with menu in Saturn",
+        "Cuisine tags: represent ≥50% of menu or primary value proposition",
+        "Do not exceed 3 cuisines",
+        "Tag tags correspond to ≥30% of items/categories",
+        "Food tags ≤3; General tags ≤3"
+      ]
+    }
+  },
+  "roles_and_governance": {
+    "roles": {
+      "Sales": "Raise onboarding ticket; attach MIF with tags & cuisine",
+      "AM": "Raise/update tickets; cannot directly change tags; submit suggestions via ticket",
+      "Catalog": "Add/update tags & cuisine in system",
+      "QC": "Add new tags; review Catalog tags; modify to ensure standards"
+    },
+    "governance": [
+      "QC lead exports lists by category (e.g., Sandwiches, Burgers) for Catalog review",
+      "Catalog marks correct outlets; suggests changes for incorrect ones",
+      "QC reviews proposals: approve for Catalog to implement or return with required changes"
+    ]
+  }
+}

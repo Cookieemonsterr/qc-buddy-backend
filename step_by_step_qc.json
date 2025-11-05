@@ -1,0 +1,215 @@
+{
+  "meta": {
+    "title": "Step by Step with the QC Team",
+    "source_file": "Step by Step.pptx",
+    "generated_at": "2025-11-05T11:47:57.330457Z"
+  },
+  "sections": {
+    "01_company_details": {
+      "company_name_rules": [
+        "Take name from CR/TL",
+        "Exclude 'Sole Proprietorship' text",
+        "Do not write all uppercase except 'L.L.C'"
+      ],
+      "contacts": [
+        "Primary manager info from MEF; YES-YES",
+        "Menu manager (if second contact): NO-NO",
+        "Brand (if third): YES-YES",
+        "Finance contact: No - YES"
+      ]
+    },
+    "bank_details": {
+      "UAE": [
+        "Info comes from ticket/MIF",
+        "Validate IBAN via IBAN checker",
+        "Validate bank code via Bank Codes sheet"
+      ],
+      "KSA": [
+        "Info from bank paper",
+        "Validate IBAN via IBAN checker",
+        "Validate bank code via Bank Codes sheet",
+        "Beneficiary name added in Arabic"
+      ],
+      "JOR": [
+        "Info from bank paper",
+        "Validate IBAN via IBAN checker",
+        "Validate bank code via Bank Codes sheet"
+      ]
+    },
+    "contracts": {
+      "UAE": [
+        "Types: Subscription or Commission",
+        "Outlet Type: Regular",
+        "Platform/Logistics/PG fees as per MEF",
+        "SOA filter: Delivered & Canceled orders",
+        "Captain delivery cost: 0"
+      ],
+      "KSA": [
+        "Types: Subscription or Commission",
+        "Outlet Type: Regular",
+        "Fees as per MEF",
+        "SOA filter: Delivered orders",
+        "Captain delivery cost: 0"
+      ],
+      "JOR": [
+        "Types: Subscription or Commission",
+        "Outlet Type: Regular",
+        "Fees as per MEF",
+        "SOA filter: Delivered & canceled orders",
+        "Captain delivery cost: 0"
+      ]
+    },
+    "certificates": {
+      "UAE": [
+        "Address: from VAT certificate; if missing, TL; if missing, MEF",
+        "Ensure city and country at end",
+        "TRN from VAT; if not tax‑registered, use license number from TL"
+      ],
+      "KSA": [
+        "Address: from CR; if 'مركزها الرئيسي' has city/district only, take full address from 'العنوان' and append the city/district",
+        "TRN from VAT; if not tax‑registered, use license from CR"
+      ],
+      "JOR": [
+        "Address: from CR certificate",
+        "TRN from CR"
+      ]
+    },
+    "brand": [
+      "UAE format: 'Brand Name - UAE'",
+      "KSA format: 'KSA - Brand Name' | CK: '(CK)' | Food Truck: '(FT)'",
+      "JOR format: 'Brand Name'",
+      "Logo is mandatory"
+    ],
+    "profile": {
+      "naming_and_language": [
+        "English outlet name from MIF; verify spelling via logo if provided",
+        "Find Arabic name via Logo, Website (Arabic version), Social Media or competitors; otherwise transliterate (e.g., 'موفينبيك اّيس كريم')"
+      ],
+      "tags_and_cuisines": [
+        "Tags must match partner menu and guidelines (see Tags SOP)",
+        "Add 'New restaurant' for all new onboardings",
+        "UAE: add 'Cplus' for Careem Fulfilment",
+        "JOR: add 'Only on Careem' for exclusive contracts",
+        "Cannot add cuisines from different trees",
+        "Tags can come from different trees if related to chosen cuisines and menu items",
+        "Geographical and non‑geographical cuisines can’t be mixed unless the non‑geo is a valid general tag within the same category",
+        "Subpage Tags are hidden sorting tags for subpages/subtiles"
+      ],
+      "timings_and_delivery": [
+        "Max prep time: 20 minutes",
+        "Discovery radius: UAE per zone (zonal sheet); KSA: 8000 (Riyadh)/10000 (Jeddah); JOR: 5000 (Irbid), 7000 (Amman), 9000 (Plan A + exclusives), 7500 (Plan B), 6500 (Plan C)",
+        "Delivery charge: UAE AED 7; KSA SAR 15; JOR JOD 1 (Irbid) / JOD 2 (Amman)",
+        "MOV: UAE/KSA: 10; JOR: 1 (Irbid) / 2 (Amman)",
+        "Price per person = average of [highest-priced main + dessert + drink] / 3",
+        "Direct must be 'No'",
+        "Tax registered 'Yes' only if VAT certificate attached",
+        "Tax on commission: UAE 5%, KSA 15%, JOR 16%",
+        "Outlet type per JIRA ticket: Regular (Careem fulfillment) or Cash paid at POS (Self-delivery)",
+        "Target acceptance time: 90s (UAE CF), 120s (KSA/JOR CF), 1800s (Merchant fulfillment)"
+      ]
+    },
+    "address": [
+      "Validate coordinates on Google Maps",
+      "If in a mall: add mall name to 'Restricted Zone Name + Full Address' and gate number if available",
+      "Add 'Zones extension' per zones extensions sheet; set 'zonal enabled' = Yes",
+      "Dubai: zone per UMAP"
+    ],
+    "contact_details": [
+      "Name, phone, email from MIF",
+      "Primary outlet manager: Deliveries Yes, Finance Yes",
+      "Finance contact: Deliveries No, Finance Yes",
+      "KSA: finance email added to both company and outlet"
+    ],
+    "priority_numbers": [
+      "Match those in the MIF"
+    ],
+    "operational_hours": [
+      "If operating past midnight, add an extra slot to the next day (e.g., Thu 13:30–02:00 → add Fri 00:00–02:00)"
+    ],
+    "login_credentials": {
+      "requirement": "Create 2 sets of credentials per new outlet: operations + owner",
+      "owner_accounts": [
+        "New brand & company: new owner account. Login ID: company name without spaces + 'soa@careemnow.com'",
+        "Password format: 'cn.' + (anything before '@' in email)",
+        "Existing companies with new banking: create new company ID; follow same format but add sequence number",
+        "Outlet extensions: link new outlet to the existing owner account (see copy-from-outlet)",
+        "For very long company names: do not use full name in login"
+      ]
+    },
+    "catalogue": {
+      "categories_ordering": "Arrange categories as per internal guidelines",
+      "writing_tips": [
+        "Depend on glossary when translating",
+        "Do not copy-paste blindly (avoid spelling/translation mistakes)",
+        "If not in glossary, research common/formal writing",
+        "Avoid extra spaces; maintain consistent style; double check work"
+      ],
+      "capitalization_matrix": {
+        "category_name": "Capitalize each first letter",
+        "item_name": "Capitalize each first letter",
+        "item_description": "Only first letter capitalized",
+        "group_option_title": "Only first letter capitalized",
+        "group_option_options": "Capitalize each first letter",
+        "always_lowercase_words": [
+          "for",
+          "and",
+          "nor",
+          "but",
+          "or",
+          "yet",
+          "with",
+          "so",
+          "your",
+          "my"
+        ],
+        "always_uppercase_examples": [
+          "Countries (Mexican, American)",
+          "Brand names"
+        ]
+      },
+      "group_options_types": [
+        {
+          "type": "MIN 1 - MAX 1",
+          "use": "Mandatory single choice (e.g., sizes/flavors where exactly one is required)"
+        },
+        {
+          "type": "MIN 0 - MAX 0",
+          "use": "Extras with no limit; customer may choose none (e.g., Remove options; extras with charge)"
+        },
+        {
+          "type": "MIN 0 - MAX X",
+          "use": "Limited multi-select; free to add some but not all"
+        },
+        {
+          "type": "MIN X - MAX X (Multi-select)",
+          "use": "Choose more than one up to a max or allow duplicates (e.g., multiple ice cream flavors)"
+        }
+      ]
+    },
+    "quality_scores": {
+      "build_ticket_scoring": {
+        "menu": 0.5,
+        "profile": 0.5
+      },
+      "averaging": "Average ticket score = 70% catalog + 30% studio",
+      "repetition_rule": "Accountable for up to 10 repetitions of the same mistake",
+      "multi_request_deductions": [
+        {
+          "range": "11–30 items",
+          "deduction_per_mistake": "25%",
+          "zero_at": 4
+        },
+        {
+          "range": "31–50 items",
+          "deduction_per_mistake": "15%",
+          "zero_at": 7
+        },
+        {
+          "range": ">50 items",
+          "deduction_per_mistake": "10%",
+          "zero_at": 10
+        }
+      ]
+    }
+  }
+}

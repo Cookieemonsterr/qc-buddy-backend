@@ -1,0 +1,93 @@
+{
+  "meta": {
+    "title": "Writing: Quality Control (All Markets)",
+    "source_file": "Writting SOP - All Markets.docx",
+    "version": "001 (Initial version)",
+    "generated_at": "2025-11-05T11:47:57.330457Z"
+  },
+  "sections": [
+    {
+      "id": "1.0",
+      "title": "Goals of Writing Quality Control function",
+      "bullets": [
+        "Deliver both accuracy and proper communication between app and customers",
+        "Enhance menu quality; unify the standard of writing in all markets"
+      ]
+    },
+    {
+      "id": "2.0",
+      "title": "Capitalization",
+      "why": "Marks start of sentences or highlights importance of specific words",
+      "rules_capitalize": [
+        "Beginning of every sentence",
+        "Names, cities, days, nationalities, and months",
+        "Capitalize words in new sentences (after full stops)"
+      ],
+      "rules_do_not_capitalize": [
+        "Articles: a, an, the",
+        "Conjunctions: and, with",
+        "Prepositions: at, on, within, under",
+        "After colons",
+        "After numbers (e.g., 3), except for item names, category names, and option names"
+      ]
+    },
+    {
+      "id": "3.0",
+      "title": "Spelling",
+      "notes": [
+        "A change of any letter can change meaning; many source menus arrive with errors",
+        "Double-check you’re copying items properly from the menu"
+      ],
+      "recommendations": [
+        "Use Google Trends to compare common usage",
+        "Use Google Translate (verify accuracy)",
+        "Compare with other aggregators",
+        "Use Microsoft Word/OS text suggestions; Grammarly optional"
+      ],
+      "units_and_abbreviations": {
+        "grams": "g",
+        "kilograms": "kg",
+        "pieces": "pcs",
+        "millilitres": "mL",
+        "litre": "L",
+        "calories": "kcal",
+        "nutrition_format_examples": [
+          "protein: # g",
+          "fats: # g"
+        ],
+        "special": [
+          "Half: ½ (to be checked for JOR)",
+          "ml and mL are used interchangeably per context"
+        ]
+      }
+    },
+    {
+      "id": "4.0",
+      "title": "Translation",
+      "principles": [
+        "We translate catalogues into Arabic; do not rely solely on vendor translations",
+        "Use Google Translate and verify; check competitors; use Glossary sheet"
+      ],
+      "word_order_rules": [
+        "Describing word (adjective/nationality) comes first; main noun follows (e.g., 'Danish Pastries', 'English Cake')",
+        "If a name has two main nouns (e.g., 'Chicken Curry'), both orders can be valid—choose the common usage"
+      ]
+    },
+    {
+      "id": "5.0",
+      "title": "Common Errors & Corrections",
+      "item_level": [
+        "If an item has three words, capitalize each word’s first letter (e.g., 'Desert Oasis Cooler')",
+        "Do not capitalize articles (a, an, the) in item names"
+      ],
+      "description_level": [
+        "Do not capitalize after a colon; write 'served with …'",
+        "Add a period at the end of each description"
+      ],
+      "customizations": {
+        "title_rule": "Treat customization titles like sentences—only the first letter capitalized (e.g., 'Choose size')",
+        "options_rule": "Treat customization options like items—capitalize each word’s first letter (e.g., 'Extra Onion')"
+      }
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+[
+  {
+    "id": "writing_capitalization_rule",
+    "market": "ALL",
+    "topic": "writing",
+    "source": "Writing SOP – Capitalization 2.1",
+    "text": "Capitalize at the start of every sentence and for names, cities, days, nationalities, and months. Do NOT capitalize articles (a, an, the), conjunctions (and, with), or prepositions (at, on, under). After a colon you do NOT start capital unless it's an item name. Customization title is sentence style ('Choose size'). Customization options are item-style: every word capitalized ('Extra Onion', not 'Extra onion'). Descriptions should NOT end with a period."
+  },
+  {
+    "id": "writing_translation_rule",
+    "market": "ALL",
+    "topic": "translation",
+    "source": "Writing SOP – Translation 4.0",
+    "text": "In English, the describing word comes first, then the main item word. Example: 'Danish Pastries' is correct ('Danish' = descriptor, 'Pastries' = main). Avoid flipped forms like 'Pastries Danish'. When translating Arabic ↔ English, do not blindly trust the merchant menu text. Cross-check the glossary and other aggregators."
+  },
+  {
+    "id": "writing_common_errors",
+    "market": "ALL",
+    "topic": "writing",
+    "source": "Writing SOP – Common Errors",
+    "text": "Don't capitalize every single word in a normal sentence-style description. Remove double spaces. Remove the final full stop/period at the end of descriptions. Do not paste dramatic marketing fluff like 'indulge in the warmth of...'; keep it clean and factual."
+  },
+  {
+    "id": "customization_rules",
+    "market": "ALL",
+    "topic": "writing",
+    "source": "Writing SOP – Customizations",
+    "text": "Customization title should be treated like a sentence ('Choose size:'). Customization options should look like item names with every word capitalized ('Extra Onion', 'No Sauce'). So 'Extra onion' is wrong, 'Extra Onion' is correct."
+  },
+  {
+    "id": "tags_uae_policy",
+    "market": "AE",
+    "topic": "tags",
+    "source": "Tags SOP – UAE policies (4.2.2)",
+    "text": "UAE tagging rules: Up to 3 cuisine tags. Cuisine tag 3 can be 0 or 1. Cuisine tags must reflect ~50% of the menu or the main value proposition. Use outlet name as a hint of main cuisine (for example 'Pasta Italy' implies Pasta). Do NOT add 'Fast Food' just because they sell burgers; that tag is only for true mass/cheap/fast style brands (McDonald's, Burger King). Cuisine tags CAN be copied into tag tags. Do not mix unrelated cuisines together (for example Emirati + Japanese in the same profile)."
+  },
+  {
+    "id": "tags_jordan_policy",
+    "market": "JO",
+    "topic": "tags",
+    "source": "Tags SOP – Jordan policies (4.4.2)",
+    "text": "Jordan tagging rules: Up to 3 cuisine tags. Cuisine tag 3 can be 0 or 1. Cuisine tags must reflect ~50% of the menu or the main value proposition. Add 'Only on Careem' for Careem exclusive outlets. Add 'New restaurant' for all new onboarding outlets. Do not mix G1 cuisines from different trees (for example Emirati + Japanese in one profile). Do not mark everything as 'Fast Food' unless it is truly fast/cheap mass-produced style."
+  },
+  {
+    "id": "tags_percentages_update",
+    "market": "ALL",
+    "topic": "tags",
+    "source": "Tags SOP – Update Tickets 6.1",
+    "text": "When updating tags for an existing outlet: cuisine tags should still reflect ~50% of the menu or main value prop. Tag tags should each cover ~30% of the menu items or categories. Food tags: 0 to 3. General tags: 0 to 3. Subpage tags: usually max 2 and they must match ~15% of the core menu for that subpage. Do not just spam random tags."
+  },
+  {
+    "id": "tags_special_requests",
+    "market": "ALL",
+    "topic": "tags",
+    "source": "Tags SOP – Special Requests",
+    "text": "Cplus tag: add this for all new Careem Fulfilment onboarding outlets. 'New restaurant' tag: add to all new onboarding outlets (Sales/AM removes it after ~30 days). 'Only on Careem' (Jordan): must be added to outlets that are Careem exclusive."
+  },
+  {
+    "id": "tax_commission_markets",
+    "market": "BOTH",
+    "topic": "onboarding-profile",
+    "source": "Step-by-Step SOP – Profile Settings",
+    "text": "Tax on commission: UAE must always be 5%. Jordan must always be 16%. 'Direct' must always be set to 'No'."
+  },
+  {
+    "id": "accept_time_targets",
+    "market": "BOTH",
+    "topic": "onboarding-profile",
+    "source": "Step-by-Step SOP – Profile Settings",
+    "text": "Careem Fulfillment acceptance time targets: UAE = 90 seconds. Jordan = 120 seconds."
+  },
+  {
+    "id": "radius_delivery_jordan",
+    "market": "JO",
+    "topic": "onboarding-profile",
+    "source": "Step-by-Step SOP – Discovery Radius Jordan",
+    "text": "Jordan discovery radius: Irbid = 5000, Amman = 7000, Plan A & exclusive = 9000, Plan B = 7500, Plan C = 6500. Delivery charge: Irbid = 1 JOD, Amman = 2 JOD. Minimum order value: Irbid = 1 JOD, Amman = 2 JOD."
+  },
+  {
+    "id": "hours_after_midnight",
+    "market": "ALL",
+    "topic": "hours",
+    "source": "Step-by-Step SOP – Operational Hours",
+    "text": "If an outlet works past midnight (like Thu 13:30–02:00), you must split it in Saturn. Add normal Thursday hours up to 23:xx, then add a new slot on Friday from 00:00–02:00 to cover the after-midnight continuation. You don't just leave 13:30–02:00 in one line."
+  },
+  {
+    "id": "company_name_rules_ae",
+    "market": "AE",
+    "topic": "onboarding-company",
+    "source": "Step-by-Step SOP – Company Details (UAE)",
+    "text": "UAE company details: take the company name from CR / TL. Remove 'Sole Proprietorship'. Keep 'L.L.C' capitalized. Do NOT paste the full legal name in full caps. VAT/TRN: if they have a VAT certificate, use the TRN from it. If they're not tax registered, then use the license number from the trade license. Address: use VAT certificate address; if it's missing, use the trade license; if still missing, use MEF. The UAE address must end with city and country."
+  },
+  {
+    "id": "company_name_rules_jo",
+    "market": "JO",
+    "topic": "onboarding-company",
+    "source": "Step-by-Step SOP – Company Details (Jordan)",
+    "text": "Jordan company details: pull company name, address, and tax number (TRN) from the CR certificate. Do not invent or freestyle the address. Use what's actually in CR."
+  },
+  {
+    "id": "zone_extensions_rule",
+    "market": "ALL",
+    "topic": "zones",
+    "source": "Step-by-Step SOP – Zones / Zone Extension Sheet",
+    "text": "You MUST confirm the outlet coordinates on Google Maps and make sure they match the correct delivery zone. For mall locations: include the mall name and gate if available in the address. You HAVE to add the correct zone extension for every outlet in every market using the zone extension sheet, then set 'zonal enabled' = yes. For Dubai specifically, zone must match UMAP."
+  }
+]
