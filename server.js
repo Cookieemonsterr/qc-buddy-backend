@@ -38,6 +38,13 @@ setInterval(() => {
   _aiCalls = 0;
 }, 60_000);
 
+function isBossSecret(q = "") {
+  // normalize Arabic punctuation/spacing a bit
+  const s = String(q).replace(/[؟?]/g, "").replace(/\s+/g, " ").trim();
+  return s === "اذا نمت وانا جوعان شو بتساوي";
+}
+
+
 function aiGatekeeper(req, _res, next) {
   const mode = (process.env.GEMINI_MODE || "flash").toLowerCase();
   if (!process.env.GEMINI_KEY || mode === "off") return next(); // AI disabled
@@ -278,3 +285,4 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`QC Buddy backend running on http://localhost:${PORT}`);
 });
+
