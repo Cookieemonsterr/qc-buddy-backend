@@ -1,53 +1,110 @@
-// knowledgeLoader.js — loads ./knowledge/*.json into {title,market,topic,text}[]
+// knowledgeLoader.js — robust loader that works with or without /knowledge
 import fs from "fs";
 import path from "path";
+import url from "url";
 
-const DIR = path.resolve("knowledge");
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const CANDIDATE_DIRS = [
+  process.cwd(),
+  path.join(process.cwd(), "knowledge"),
+  __dirname,
+  path.join(__dirname, "knowledge"),
+];
 
-function toChunks(doc, filename) {
-  const chunks = [];
+let _cache = null;
 
-  // If already an array of chunks
-  if (Array.isArray(doc)) {
-    for (const c of doc) {
-      chunks.push({
-        title: c.title || filename.replace(".json",""),
-        market: (c.market || "ALL").toUpperCase(),
-        topic: (c.topic || "misc").toLowerCase(),
-        text: typeof c.text === "string" ? c.text : JSON.stringify(c.text ?? c, null, 2)
-      });
+function safeReadJSON(p) {
+  try {
+    const s = fs.readFileSync(p, "utf-8");
+    return JSON.parse(s);
+  } catch {
+    return null;
+  }
+}
+
+function flattenUnknownJSON(json, fallbackTopic) {
+  // Normalize ANY JSON into [{title, market, topic, text}]
+  const out = [];
+
+  const pushChunk = (text, topic = fallbackTopic, title = "", market = "ALL") => {
+    const t = String(text || "").trim();
+    if (!t) return;
+    out.push({ title: title || "SOP", market, topic, text: t });
+  };
+
+  if (Array.isArray(json)) {
+    // Could already be chunk objects OR strings
+    for (const item of json) {
+      if (item && typeof item === "object" && (item.text || item.body)) {
+        pushChunk(item.text || item.body, item.topic || fallbackTopic, item.title || "", item.market || "ALL");
+      } else if (typeof item === "string") {
+        pushChunk(item, fallbackTopic);
+      }
     }
-    return chunks;
+  } else if (json && typeof json === "object") {
+    // Arbitrary object: collect all string leaves
+    const leaves = [];
+    (function walk(x) {
+      if (typeof x === "string") {
+        const s = x.trim();
+        if (s) leaves.push(s);
+      } else if (Array.isArray(x)) {
+        x.forEach(walk);
+      } else if (x && typeof x === "object") {
+        Object.values(x).forEach(walk);
+      }
+    })(json);
+    if (leaves.length) pushChunk(leaves.join(" • "), fallbackTopic);
   }
 
-  // If it's an object: flatten to one chunk
-  const guessTopic = /tag/i.test(filename) ? "tags"
-                   : /writ/i.test(filename) ? "writing"
-                   : /company|step|qc/i.test(filename) ? "company"
-                   : "misc";
-  const text = typeof doc === "string" ? doc : JSON.stringify(doc, null, 2);
+  return out;
+}
 
-  chunks.push({
-    title: doc?.meta?.title || filename.replace(".json",""),
-    market: "ALL",
-    topic: guessTopic,
-    text
-  });
-  return chunks;
+function guessTopicFromName(name) {
+  const n = name.toLowerCase();
+  if (n.includes("company")) return "company";
+  if (n.includes("tags_guideline")) return "tags";
+  if (n.includes("tags_sop") || n.includes("tags")) return "tags";
+  if (n.includes("writing")) return "writing";
+  if (n.includes("image")) return "images";
+  if (n.includes("zone")) return "zones";
+  if (n.includes("step_by_step") || n.includes("qc")) return "misc";
+  if (n.includes("basechunks") || n.includes("chunk")) return "misc";
+  return "misc";
 }
 
 export function getKnowledge() {
-  if (!fs.existsSync(DIR)) return [];
-  const files = fs.readdirSync(DIR).filter(f => f.endsWith(".json"));
-  const all = [];
-  for (const f of files) {
+  if (_cache) return _cache;
+
+  const results = [];
+  const seen = new Set();
+
+  for (const dir of CANDIDATE_DIRS) {
+    let files = [];
     try {
-      const raw = fs.readFileSync(path.join(DIR, f), "utf-8");
-      const doc = JSON.parse(raw);
-      all.push(...toChunks(doc, f));
-    } catch (e) {
-      console.error("Knowledge load error:", f, e.message);
+      files = fs.readdirSync(dir).filter((f) => f.toLowerCase().endsWith(".json"));
+    } catch {
+      continue;
+    }
+    for (const f of files) {
+      const key = path.join(dir, f);
+      if (seen.has(key)) continue;
+      seen.add(key);
+
+      const json = safeReadJSON(key);
+      if (!json) continue;
+
+      const topic = guessTopicFromName(f);
+      const normalized = flattenUnknownJSON(json, topic);
+      for (const c of normalized) {
+        // attach filename as title if missing
+        if (!c.title) c.title = f;
+        results.push(c);
+      }
     }
   }
-  return all;
+
+  _cache = results;
+  console.log(`[knowledgeLoader] Loaded ${results.length} chunks from ${CANDIDATE_DIRS.join(" | ")}`);
+  return _cache;
 }
