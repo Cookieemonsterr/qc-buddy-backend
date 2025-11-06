@@ -1,4 +1,4 @@
-// knowledgeLoader.js — robust loader that works with or without /knowledge dir
+// knowledgeLoader.js — load JSON from root or /knowledge, keep only policy-ish lines
 import fs from "fs";
 import path from "path";
 import url from "url";
@@ -14,55 +14,72 @@ const CANDIDATE_DIRS = [
 let _cache = null;
 
 function safeReadJSON(p) {
-  try {
-    const s = fs.readFileSync(p, "utf-8");
-    return JSON.parse(s);
-  } catch {
-    return null;
-  }
+  try { return JSON.parse(fs.readFileSync(p, "utf-8")); }
+  catch { return null; }
 }
 
-function flattenUnknownJSON(json, fallbackTopic) {
-  const out = [];
-  const pushChunk = (text, topic = fallbackTopic, title = "", market = "ALL") => {
-    const t = String(text || "").trim();
-    if (!t) return;
-    out.push({ title: title || "SOP", market, topic, text: t });
-  };
+function isHeading(s) {
+  const t = s.trim();
+  if (!t) return true;
+  // very short, few words, or ends without punctuation
+  const words = t.split(/\s+/);
+  const looksTitleCase = /^[A-Z][A-Za-z0-9]+(?:\s+[A-Z][A-Za-z0-9]+)*$/.test(t);
+  return (
+    t.length < 35 ||
+    words.length <= 4 ||
+    looksTitleCase ||
+    /^[*•-]\s*$/.test(t)
+  );
+}
+function isRuleLike(s) {
+  const t = s.trim();
+  if (t.length < 40) return false;
+  if (!/[.!?]$/.test(t)) return false;
+  return /(must|should|required|don’t|do not|avoid|use|set|add|choose|is|are|dimensions?|size|1200|1125|780|CR|TL|VAT|tax|tags)/i.test(t);
+}
 
-  if (Array.isArray(json)) {
-    for (const item of json) {
-      if (item && typeof item === "object" && (item.text || item.body)) {
-        pushChunk(item.text || item.body, item.topic || fallbackTopic, item.title || "", item.market || "ALL");
-      } else if (typeof item === "string") {
-        pushChunk(item, fallbackTopic);
-      }
-    }
-  } else if (json && typeof json === "object") {
-    const leaves = [];
-    (function walk(x) {
-      if (typeof x === "string") {
-        const v = x.trim();
-        if (v) leaves.push(v);
-      } else if (Array.isArray(x)) x.forEach(walk);
-      else if (x && typeof x === "object") Object.values(x).forEach(walk);
-    })(json);
-    if (leaves.length) pushChunk(leaves.join(" • "), fallbackTopic);
-  }
+function explodeToLines(x) {
+  // Flatten any JSON into individual lines
+  const lines = [];
+  (function walk(v) {
+    if (typeof v === "string") {
+      v.split(/\r?\n/).forEach(line => {
+        const t = line.trim();
+        if (t) lines.push(t);
+      });
+    } else if (Array.isArray(v)) v.forEach(walk);
+    else if (v && typeof v === "object") Object.values(v).forEach(walk);
+  })(x);
+  return lines;
+}
 
-  return out;
+function normalizeFileToChunks(json, fallbackTopic, filename) {
+  const lines = explodeToLines(json)
+    // remove bullets markers
+    .map(s => s.replace(/^\s*[*•-]\s*/, "").trim())
+    // drop slide/page/file meta
+    .map(s => s.replace(/\bslide\s*\d+\b|\bpage\s*\d+\b|\b\S+\.(pptx?|pdf|docx?)\b/gi, "").trim())
+    // filter out headings
+    .filter(s => !isHeading(s));
+
+  const rules = lines.filter(isRuleLike);
+  const texts = rules.length ? rules : lines; // fallback if rules are scarce
+
+  return texts.map(t => ({
+    title: filename,
+    market: "ALL",
+    topic: fallbackTopic,
+    text: t
+  }));
 }
 
 function guessTopicFromName(name) {
   const n = name.toLowerCase();
   if (n.includes("company")) return "company";
-  if (n.includes("tags_guideline")) return "tags";
-  if (n.includes("tags_sop") || n.includes("tags")) return "tags";
+  if (n.includes("tags_guideline") || n.includes("tags_sop") || n.includes("tags")) return "tags";
   if (n.includes("writing")) return "writing";
   if (n.includes("image")) return "images";
   if (n.includes("zone")) return "zones";
-  if (n.includes("step_by_step") || n.includes("qc")) return "misc";
-  if (n.includes("basechunks") || n.includes("chunk")) return "misc";
   return "misc";
 }
 
@@ -70,33 +87,28 @@ export function getKnowledge() {
   if (_cache) return _cache;
 
   const results = [];
-  const seen = new Set();
+  const seenFiles = new Set();
 
   for (const dir of CANDIDATE_DIRS) {
     let files = [];
-    try {
-      files = fs.readdirSync(dir).filter((f) => f.toLowerCase().endsWith(".json"));
-    } catch {
-      continue;
-    }
-    for (const f of files) {
-      const key = path.join(dir, f);
-      if (seen.has(key)) continue;
-      seen.add(key);
+    try { files = fs.readdirSync(dir).filter(f => f.toLowerCase().endsWith(".json")); }
+    catch { continue; }
 
-      const json = safeReadJSON(key);
+    for (const f of files) {
+      const full = path.join(dir, f);
+      if (seenFiles.has(full)) continue;
+      seenFiles.add(full);
+
+      const json = safeReadJSON(full);
       if (!json) continue;
 
       const topic = guessTopicFromName(f);
-      const normalized = flattenUnknownJSON(json, topic);
-      for (const c of normalized) {
-        if (!c.title) c.title = f;
-        results.push(c);
-      }
+      const chunks = normalizeFileToChunks(json, topic, f);
+      results.push(...chunks);
     }
   }
 
   _cache = results;
-  console.log(`[knowledgeLoader] Loaded ${results.length} chunks from ${CANDIDATE_DIRS.join(" | ")}`);
+  console.log(`[knowledgeLoader] Loaded ${results.length} policy lines`);
   return _cache;
 }
