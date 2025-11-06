@@ -1,4 +1,4 @@
-// knowledgeLoader.js — robust loader that works with or without /knowledge
+// knowledgeLoader.js — robust loader that works with or without /knowledge dir
 import fs from "fs";
 import path from "path";
 import url from "url";
@@ -23,9 +23,7 @@ function safeReadJSON(p) {
 }
 
 function flattenUnknownJSON(json, fallbackTopic) {
-  // Normalize ANY JSON into [{title, market, topic, text}]
   const out = [];
-
   const pushChunk = (text, topic = fallbackTopic, title = "", market = "ALL") => {
     const t = String(text || "").trim();
     if (!t) return;
@@ -33,7 +31,6 @@ function flattenUnknownJSON(json, fallbackTopic) {
   };
 
   if (Array.isArray(json)) {
-    // Could already be chunk objects OR strings
     for (const item of json) {
       if (item && typeof item === "object" && (item.text || item.body)) {
         pushChunk(item.text || item.body, item.topic || fallbackTopic, item.title || "", item.market || "ALL");
@@ -42,17 +39,13 @@ function flattenUnknownJSON(json, fallbackTopic) {
       }
     }
   } else if (json && typeof json === "object") {
-    // Arbitrary object: collect all string leaves
     const leaves = [];
     (function walk(x) {
       if (typeof x === "string") {
-        const s = x.trim();
-        if (s) leaves.push(s);
-      } else if (Array.isArray(x)) {
-        x.forEach(walk);
-      } else if (x && typeof x === "object") {
-        Object.values(x).forEach(walk);
-      }
+        const v = x.trim();
+        if (v) leaves.push(v);
+      } else if (Array.isArray(x)) x.forEach(walk);
+      else if (x && typeof x === "object") Object.values(x).forEach(walk);
     })(json);
     if (leaves.length) pushChunk(leaves.join(" • "), fallbackTopic);
   }
@@ -97,7 +90,6 @@ export function getKnowledge() {
       const topic = guessTopicFromName(f);
       const normalized = flattenUnknownJSON(json, topic);
       for (const c of normalized) {
-        // attach filename as title if missing
         if (!c.title) c.title = f;
         results.push(c);
       }
