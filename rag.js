@@ -2,7 +2,7 @@ import "dotenv/config";
 import { getKnowledge } from "./knowledgeLoader.js";
 import levenshtein from "fast-levenshtein";
 
-/* ---- Topic detection (slightly expanded) ---- */
+/* ---- Topic detection ---- */
 function detectTopic(q = "") {
   const s = q.toLowerCase();
   if (/(company|cr\b|trade\s*license|tl\b|trn|vat|address)/.test(s)) return "company";
@@ -13,7 +13,7 @@ function detectTopic(q = "") {
   return "misc";
 }
 
-/* ---- Score chunks (market + topical + fuzzy) ---- */
+/* ---- Score chunks ---- */
 function scoreChunks(question, chunks, marketPref = "AUTO") {
   const q = (question || "").toLowerCase();
   const mkt = (marketPref || "AUTO").toUpperCase();
@@ -35,7 +35,7 @@ function scoreChunks(question, chunks, marketPref = "AUTO") {
     .sort((a, b) => b.score - a.score);
 }
 
-/* ---- RAG answer (short, grounded) ---- */
+/* ---- RAG answer ---- */
 export function buildAnswer({ question, marketPref = "AUTO" }) {
   const ALL = getKnowledge();
   if (!ALL?.length) {
@@ -71,10 +71,14 @@ export function buildAnswer({ question, marketPref = "AUTO" }) {
   return { text, sources };
 }
 
-/* ---- Normalize context so model won't regurgitate JSON ---- */
+/* ---- Normalize context (strip meta refs) ---- */
 function normalizeContextText(t) {
   if (!t) return "";
-  t = String(t).replace(/```[\s\S]*?```/g, ""); // remove code fences
+  t = String(t).replace(/```[\s\S]*?```/g, "");
+  t = t
+    .replace(/\bslide\s*\d+\b/gi, "")
+    .replace(/\bpage\s*\d+\b/gi, "")
+    .replace(/\b\S+\.(pptx?|pdf|docx?)\b/gi, "");
 
   const s = t.trim();
   if ((s.startsWith("{") && s.endsWith("}")) || (s.startsWith("[") && s.endsWith("]"))) {
@@ -89,7 +93,7 @@ function normalizeContextText(t) {
         else if (x && typeof x === "object") Object.values(x).forEach(walk);
       })(obj);
       t = leafs.join(" • ");
-    } catch { /* ignore */ }
+    } catch {}
   }
 
   t = t.replace(/\s+\n/g, "\n").replace(/[ \t]+/g, " ").trim();
@@ -97,7 +101,7 @@ function normalizeContextText(t) {
   return t;
 }
 
-/* ---- Grounded prompt (short bullets, playful but strict) ---- */
+/* ---- Grounded prompt (no slide/file talk) ---- */
 export function buildGroundedPrompt({ question, marketPref = "AUTO", sources = [] }) {
   const blocks = (sources || [])
     .slice(0, 3)
@@ -109,14 +113,22 @@ export function buildGroundedPrompt({ question, marketPref = "AUTO", sources = [
     )
     .join("\n");
 
+  if (!blocks.trim()) {
+    return `
+You are QC Buddy. There are NO SOP facts for this question.
+Reply EXACTLY with: "I don't have this in the SOP."
+`.trim();
+  }
+
   return `
 You are QC Buddy — concise, friendly, playful but STRICT about SOP.
 Answer ONLY using the SOP facts below.
 
-Output rules:
-- Write 1–3 SHORT bullet points (max).
-- No long lists, no headings, no JSON.
-- If the SOP doesn’t cover it, reply exactly: "I don't have this in the SOP." Then add ONE helpful next step (e.g., "Ask your lead" or "Check onboarding doc Section X").
+Hard rules:
+- Give the policy answer directly.
+- DO NOT mention slides, filenames, pages, decks, or where to find info.
+- Write 1–3 SHORT bullet points (max). No headings, no JSON.
+- If the SOP doesn’t cover it, reply exactly: "I don't have this in the SOP." Then add ONE next step.
 
 Market: ${marketPref}
 Question: ${question}
@@ -126,7 +138,7 @@ ${blocks}
 `.trim();
 }
 
-/* ---- AI with cache + backoff + detailed logs ---- */
+/* ---- Gemini with cache/backoff/logs ---- */
 const _aiCache = new Map();
 function _cacheGet(key) {
   const ttl = Number(process.env.GEMINI_CACHE_TTL_MS || 600000);
@@ -148,21 +160,12 @@ export async function callGeminiAPI(prompt) {
   const key = process.env.GEMINI_KEY;
   const mode = (process.env.GEMINI_MODE || "flash").toLowerCase();
 
-  if (!key) {
-    console.log("[Gemini] SKIP: no GEMINI_KEY");
-    return null;
-  }
-  if (mode === "off") {
-    console.log("[Gemini] SKIP: GEMINI_MODE=off");
-    return null;
-  }
+  if (!key) { console.log("[Gemini] SKIP: no GEMINI_KEY"); return null; }
+  if (mode === "off") { console.log("[Gemini] SKIP: GEMINI_MODE=off"); return null; }
 
   const cacheKey = `${mode}:${prompt.slice(0, 1200)}`;
   const cached = _cacheGet(cacheKey);
-  if (cached) {
-    // console.log("[Gemini] cache hit");
-    return cached;
-  }
+  if (cached) return cached;
 
   const models =
     mode === "flash"
@@ -179,11 +182,7 @@ export async function callGeminiAPI(prompt) {
     for (let attempt = 1; attempt <= 3; attempt++) {
       try {
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${key}`;
-        const r = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
+        const r = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
         const d = await r.json().catch(() => ({}));
         const txt = d?.candidates?.[0]?.content?.parts?.[0]?.text;
 
@@ -201,7 +200,7 @@ export async function callGeminiAPI(prompt) {
           delay = Math.min(delay * 2, 4000);
           continue;
         }
-        break; // non-retryable
+        break;
       } catch (e) {
         console.log(`[Gemini] ❌ ${m} (attempt ${attempt}) exception ->`, e.message);
         await _sleep(delay);
@@ -209,7 +208,6 @@ export async function callGeminiAPI(prompt) {
       }
     }
   }
-
   console.log("[Gemini] All models failed; using RAG only.");
   return null;
 }
