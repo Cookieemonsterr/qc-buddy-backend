@@ -73,6 +73,22 @@ app.get("/health", (_req, res) => {
   });
 });
 
+import { getKnowledge } from "./knowledgeLoader.js";
+
+app.get("/debug/knowledge", (_req, res) => {
+  const all = getKnowledge();
+  res.json({
+    count: all.length,
+    sample: all.slice(0, 5).map((c) => ({
+      title: c.title,
+      topic: c.topic,
+      market: c.market,
+      textPreview: (c.text || "").slice(0, 120),
+    })),
+  });
+});
+
+
 // ---------- Core single-item answer using your RAG + optional Gemini ----------
 async function answerOne(message, market, forceRAG = false) {
   const rag = buildAnswer({ question: message, marketPref: market });
@@ -287,6 +303,7 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`QC Buddy backend running on http://localhost:${PORT}`);
 });
+
 
 
 
