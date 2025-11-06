@@ -187,6 +187,7 @@ app.post("/ask", handleAsk);
 app.post("/chat", handleAsk);
 app.post("/api/ask", handleAsk);
 app.post("/api/chat", handleAsk);
+app.post("/", handleAsk);
 
 /* ---------- Suggest tags ---------- */
 app.post("/suggest-tags", async (req, res) => {
@@ -295,3 +296,4 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`QC Buddy backend running on http://localhost:${PORT}`);
 });
+
